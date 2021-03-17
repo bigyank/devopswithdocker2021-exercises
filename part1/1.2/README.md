@@ -1,4 +1,5 @@
 docker container prune
+
 docker rmi nginx
 
 ## result
