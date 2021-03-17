@@ -10,4 +10,5 @@ docker rmi nginx
 
 ## result 
 ➜ docker images
-
+|  REPOSITORY | TAG  |  IMAGE ID | CREATED |  SIZE |
+|---|---|---|---|---|
