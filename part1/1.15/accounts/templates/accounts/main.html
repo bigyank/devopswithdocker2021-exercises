@@ -1,0 +1,331 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> E-pharma</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <!-- add icon link -->
+  <link rel="icon" href="{% static 'images/favicon.png'%}" type="image/png ">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="{% static  'css/main.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static  'css/style.css' %}">
+
+  <script type="text/javascript">
+    var user = '{{request.user}}'
+    function getToken(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    var csrftoken = getToken('csrftoken')
+
+
+
+
+    // Collects the cookie for the guest to add their cart 
+
+    function getCoookie(name) {
+      //split cookie string and gett all the name  with is value pair in array.
+      var cookieArr = document.cookie.split(";");
+
+      //loop through the array 
+      for (var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split("=");
+        // Remove the whitespace at the begining of the cookie name and compare it with the string
+        if (name == cookiePair[0].trim()) {
+          //Decode the cookie value and return it
+          return decodeURIComponent(cookiePair[1]);
+
+        }
+      }
+      //Return null if not found
+      return null;
+
+    }
+
+    var cart = JSON.parse(getCoookie('cart'))
+
+    if (cart == undefined) {
+      cart = {}
+      console.log("Cart is created")
+      document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+    }
+    console.log('Cart:', cart)
+
+
+  </script>
+</head>
+</head>
+
+<body>
+
+  <body>
+    </head>
+
+    <body>
+      <!-- Go to Top -->
+
+      <button onclick="topFunction()" id="topbtn" title="Go to top"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+          height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+        </svg></button>
+
+
+      <!-- Pre-loader -->
+      <!-- <div class="loadingio-eclipse">
+        <div class="ldio-rpinwye8j0b">
+          <div>
+          </div>
+        </div>
+      </div> -->
+
+
+
+
+      <!-- First Nav -->
+      {% if user.is_authenticated %}
+      <div class="topnav" id="myTopnav">
+        <a href="https://www.instagram.com/username_abh/" target="_blank"> <img
+            src="https://cdn.svgporn.com/logos/instagram-icon.svg" height="15px"></a>
+        <a href="https://twitter.com/Abhishek9860480" target="_blank"> <img
+            src="https://cdn.svgporn.com/logos/twitter.svg" height="15px"></a>
+        <a href="https://www.facebook.com/Mr.JerryIsHere/" target="_blank"> <img
+            src="https://cdn.svgporn.com/logos/facebook.svg" height="15px"></a>
+        <a href="#" style="float: right;"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+            <path
+              d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+          </svg>Upload Prescription</a>
+        <a href="{% url 'home'%}" style="float: right;">{{user.username|title}} <svg xmlns="http://www.w3.org/2000/svg"
+            width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path
+              d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+          </svg></a>
+        <a href="{% url 'logout' %}" style="float: right;">logout </a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+      {% else %}
+      <div class="topnav" id="myTopnav">
+        <a href="https://www.instagram.com/username_abh/" target="_blank">
+          <img src="https://cdn.svgporn.com/logos/instagram-icon.svg" height="15px">
+        </a>
+        <a href="https://twitter.com/Abhishek9860480" target="_blank"> <img
+            src="https://cdn.svgporn.com/logos/twitter.svg" height="15px"></a>
+        <a href="https://www.facebook.com/Mr.JerryIsHere/" target="_blank"> <img
+            src="https://cdn.svgporn.com/logos/facebook.svg" height="15px"></a>
+        <a href="#" style="float: right;"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+            <path
+              d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+          </svg>Upload Prescription</a>
+        <a href="{% url 'login' %}" style="float: right;">login </a>
+        <a href="{% url 'register' %}" style="float: right;">Register</a>
+
+
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+
+        </a>
+      </div>
+      {% endif %}
+      <script>
+        function myFunction() {
+          var x = document.getElementById("myTopnav");
+          if (x.className === "topnav") {
+            x.className += " responsive";
+          } else {
+            x.className = "topnav";
+          }
+        }
+      </script>
+
+
+      <!-- Second Nav -->
+      <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand" href="{% url 'home'%}"> <img src="{% static 'images/logo.png'%}" alt="E-pharma"
+            style="height: 70px;"></a>
+        <form class="form-inline" action="{% url 'searchpage' %}" method="GET">
+          <input name="keyword" class="form-control mr-sm-2 " type="text" placeholder="Search.." required>
+          <!--aria-label="Search"-->
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+          <!-- The Grey Add to cart -->
+          <!-- <div class="form-inline my-2 my-lg-0">
+            <a href="{% url 'cart'%}">
+              <img id="cart-icon" src="{% static 'images/cart.png'%}">
+
+            </a>
+            <p id="cart-total">{{cartItems}}</p>
+            previously the upload prescribtion was there
+          </div> -->
+
+          <!-- The Grey Add to cart -->
+          <div class="form-inline my-2 my-lg-0">
+            <a href="{% url 'cart'%}">
+              <img id="cart-icon" src="{% static 'images/cart.png'%}">
+
+            </a>
+            <p class="badge bg-secondary" id="cart-total">{{cartItems}}</p>
+          </div>
+        </form>
+
+      </nav>
+
+      <!-- Third nav -->
+      <div class="navbar">
+        <a href="#">Personal Care</a><br>
+        <a href="#">Family Care</a><br>
+        <a href="#">Fitness and Suppliments</a>
+        <a href="{% url 'doctor'%}">Doctors</a>
+
+      </div>
+
+      <div class="container">
+        <br>
+        {% include 'accounts/messages.html'%}
+
+
+
+        {% block content %}
+
+
+        {% endblock content %}
+      </div>
+
+
+
+
+      <!-- Footer -->
+      <footer class="footer-distributed">
+
+        <div class="footer-left">
+          <a href="{%url 'home'%}"><img src="{% static 'images/logo.png'%}"></a>
+          <h3><span>E-Pharma</span></h3>
+
+          <p class="footer-links">
+            <a href="#">Pharmacy</a><br>
+            <a href="#">Personal Care</a><br>
+            <a href="#">Family Care</a><br>
+            <a href="#">Fitness and Suppliments</a><br>
+            <a href="{% url 'ambulance'%}">Ambulance & Service</a><br>
+            <a href="{% url 'doctor'%}">Doctors </a>
+          </p>
+
+          <p class="footer-company-name">© 2020 E-Pharma Pvt. Ltd.</p>
+        </div>
+
+        <div class="footer-center">
+          <div>
+            <i class="fa fa-map-marker"></i>
+            <p><span>Contacts</span></p>
+          </div>
+          <div>
+            <i class="bi bi-geo-alt"></i>
+            <p><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-geo-alt" viewBox="0 0 16 16">
+                  <path
+                    d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z" />
+                  <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                </svg> Attekhel,Gokerneshwor, Kathmandu</p>
+          </div>
+
+          <div>
+            <i class="fa fa-phone"></i>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-telephone" viewBox="0 0 16 16">
+                <path
+                  d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+              </svg> +977 9812345678</p>
+          </div>
+          <div>
+            <i class="fa fa-envelope"></i>
+            <p><a href="mailto:epharmaa@gmail.com"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                  fill="currentColor" class="bi bi-inbox" viewBox="0 0 16 16">
+                  <path
+                    d="M4.98 4a.5.5 0 0 0-.39.188L1.54 8H6a.5.5 0 0 1 .5.5 1.5 1.5 0 1 0 3 0A.5.5 0 0 1 10 8h4.46l-3.05-3.812A.5.5 0 0 0 11.02 4H4.98zm9.954 5H10.45a2.5 2.5 0 0 1-4.9 0H1.066l.32 2.562a.5.5 0 0 0 .497.438h12.234a.5.5 0 0 0 .496-.438L14.933 9zM3.809 3.563A1.5 1.5 0 0 1 4.981 3h6.038a1.5 1.5 0 0 1 1.172.563l3.7 4.625a.5.5 0 0 1 .105.374l-.39 3.124A1.5 1.5 0 0 1 14.117 13H1.883a1.5 1.5 0 0 1-1.489-1.314l-.39-3.124a.5.5 0 0 1 .106-.374l3.7-4.625z" />
+                </svg> epharmaa@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="footer-right">
+          <p class="footer-company-about">
+            <span>About the company</span>
+            If you’re in need of medicines – we’re here by your side.
+            Stay safe and buy online.
+          </p>
+          <div class="footer-icons">
+            <a href="https://www.instagram.com/username_abh/" target="_blank"> <img
+                src="https://cdn.svgporn.com/logos/instagram-icon.svg" height="15px"></a>
+            <a href="https://twitter.com/Abhishek9860480" target="_blank"> <img
+                src="https://cdn.svgporn.com/logos/twitter.svg" height="15px"></a>
+            <a href="https://www.facebook.com/Mr.JerryIsHere/" target="_blank"> <img
+                src="https://cdn.svgporn.com/logos/facebook.svg" height="15px"></a>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Go to Top -->
+      <script>
+        //Get the button
+        var mybutton = document.getElementById("topbtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+          } else {
+            mybutton.style.display = "none";
+          }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
+
+
+
+      </script>
+
+      <!-- <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
+
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script> -->
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+      <script type="text/javascript" src="{% static 'js/cart.js'%}"></script>
+    </body>
+
+</html>

@@ -1,0 +1,72 @@
+{% extends 'accounts/main.html'%}
+{% load static %}
+{% block content %}
+<div class="product_all_description">
+    <!-- Product Show case -->
+    <div class="row">
+        <div class="column">
+            <!-- style="background-color:#aaa; -->
+            <div class="centered">
+                <img src="{{ pro_id.imageURL }}" alt="Product Images">
+            </div>
+        </div>
+        <div class="column">
+            <!-- style="background-color:#bbb; -->
+            <p class="newarrival ">Rs.{{pro_id.price}}</p>
+            <h4>{{pro_id.name}}</h4>
+            <!-- <p> Product: Lotion</p> -->
+            <p>Category: {{ pro_id.category}}</p>
+            <p>Delivery Data: {{pro_id.delivery_date}}</p>
+            <p> {{pro_id.smalldescription}}.</p>
+            <button data-product={{pro_id.id}} data-action="add" type="button" class="btn-cart update-cart"> Add to cart
+                <span><i class="fas fa-plus"></i></span>
+           </button>
+        </div>
+    </div>
+
+    <!-- item discription -->
+    <div class="flex-container">
+        <div class="flex-item">
+            <b class="on" style="font: 26px poppins, sens-serif; font-weight: 200;">Description</b>
+            <br><br>
+            <p>{{ pro_id.descriptions}}
+        </div>
+    </div>
+</div>
+
+<!-- Grid Item -->
+<div class="products">
+    <div class="container">
+        <h1 class="lg-title">Best Selling Products</h1>
+        <hr>
+
+        <div class="product-items">
+            {% for products_item in products_items %}
+            <!-- single product -->
+            <div class="product">
+                <div class="product-content">
+                    <div class="product-img">
+                        <a href="{% url 'products_item' %}"><img src="{{ products_item.imageURL }}" alt="product image"></a>
+                    </div>
+                    <div class="product-btns">
+                        <button data-product={{products_item.id}} data-action="add" type="button"
+                            class="btn-cart update-cart"> Add to cart
+                            <span><i class="fas fa-plus"></i></span>
+                        </button>
+                        <!-- <button type="button" class="btn-buy"> buy now
+                                                <span><i class="fas fa-shopping-cart"></i></span>
+                                            </button> -->
+                    </div>
+                </div>
+                <div class="product-info">
+
+                    <a href="{% url 'products' %}" class="product-name">{{products_item.name}}</a>
+                    <p class="product-price">Rs.{{products_item.price}}</p> <!-- |floatformat:2 -->
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+    {% endblock content %}

@@ -1,0 +1,32 @@
+{% extends "accounts/main.html" %}
+{% load static %}
+{% block content %}
+<!-- <link rel="stylesheet" type="text/css" href="{ % static 'css/docprofilestyle.css'%}"> -->
+     <!-- Doctors -->
+        <!-- Grid Item -->
+        <div class="products">
+            <div class="container">
+                <h1 class="lg-title">Our Doctors</h1> <hr>
+                <div class="product-items">
+                    {% for doctor in doctors %}
+                    <!-- single Doctor -->
+                    <div class="product">
+                        <div class="product-content">
+                            <div class="product-img">
+                                <a href="{% url 'doctorprofile'  doctor.id %}"><img src="{{ doctor.imageURL }}" alt="doctor image"></a>
+                            </div>
+                        </div>
+
+                        <div class="product-info">
+
+                            <a href="{% url 'doctorprofile' doctor.id %}" class="product-name">{{doctor.docname}}</a>
+                            <p class="product-price">{{doctor.docfield}} </p>
+                            <p class="product-price">Experience {{doctor.experience}} </p>
+                        </div>
+                    </div>
+                    <!-- end of single Doctor -->
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+{% endblock  %}

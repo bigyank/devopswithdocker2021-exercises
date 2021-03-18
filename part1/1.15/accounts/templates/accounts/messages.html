@@ -1,0 +1,5 @@
+{% if messages %}
+{% for message in messages %}
+<a class="btn btn-info" onclick="toastr.info('{{ message.tags }}');"> {{message}}</a>
+{% endfor %}
+{% endif%}

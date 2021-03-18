@@ -1,0 +1,55 @@
+{% extends 'accounts/main.html'%}
+{% load static %}
+{% block content %}
+
+<body>
+    <!-- <div class="row">
+                <div class="col-md-4">
+                    <img src="{{result.imageURL}}"  class="img-fluid" alt="">
+                </div>
+                <br>
+                <div class="col-md-8">
+                    <h5>{{ result.name }}</h5>
+                    <br>
+                    <h5>{{result.descriptions}}</h5>
+                </div>
+            </div> -->
+    <div class="products">
+        <div class="container">
+            <h1 class="lg-title">
+                <h3>Search Result for <span class="text-info">"{{request.GET.keyword}}"</span></h3>
+            </h1>
+            <hr>
+
+            <div class="product-items">
+                {% for result in results %}
+                <!-- single product -->
+                <div class="product">
+                    <div class="product-content">
+                        <div class="product-img">
+                            <a href="{% url 'product' result.id %}"><img src="{{ result.imageURL }}"
+                                    alt="product image"></a>
+                        </div>
+                        <div class="product-btns">
+                            <button data-product={{result.id}} data-action="add" type="button"
+                                class="btn-cart update-cart"> Add to cart
+                                <span><i class="fas fa-plus"></i></span>
+                            </button>
+                            <!-- <button type="button" class="btn-buy"> buy now
+                                   <span><i class="fas fa-shopping-cart"></i></span>
+                              </button> -->
+                        </div>
+                    </div>
+                    <div class="product-info">
+
+                        <a href="{% url 'product' result.id %}" class="product-name">{{result.name}}</a>
+                        <p class="product-price">Rs.{{result.price}}</p> 
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+<!-- Amublance Service -->
+<div class="row">
+    <div class="column">
+        <!-- style="background-color:#aaa; -->
+        <div class="centered">
+            <img src="{% static 'images/health.PNG'%}"
+                alt="Sebium Hydra Ultra Moisturising Compensating Care, BIODERMA , 40ml 1.33 fl. oz.">
+        </div>
+    </div>
+    <div class="column" style="border-left:2px solid #a9a9a9; ;">
+        <!-- style="background-color:#bbb; -->
+        <p class="head-part ">Are you facing any problem?</p>
+        <p> Epharma is here to help you. With our well experience team we promise to deliver quality goods and
+            services. For any concern, feel free to talk to us and here are
+            <a href="http://nepal.gov.np:8080/NationalPortal/view-page?id=140" target="_blank">Amublance Service list.</a> or,
+        </p>
+
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group"></div>
+            <input type="text" name="name" maxlength="100" required="" id="id_name" placeholder=" Name"> <br> <br>
+            <input type="email" name="email" maxlength="30" required="" id="id_email" placeholder=" E-mail"> <br> <br>
+
+            <textarea name="descriptions" maxlength="1000" required="" id="id_descriptions" class="form-control"
+                placeholder="Any Problems!">
+            </textarea>
+            <br>
+
+            <button class="btn btn-outline-success" type="submit" value="Continue">Success</button>
+        </form>
+    </div>
+
+
+</div>
+</div>
+{% endblock %}
