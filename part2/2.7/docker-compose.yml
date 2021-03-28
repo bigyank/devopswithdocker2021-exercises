@@ -1,0 +1,22 @@
+version: "3"
+services:
+  frontend:
+    image: bigyank/ml-frontend
+    build: ./frontend
+    ports:
+      - 3000:3000
+  backend:
+    build: ./backend
+    ports:
+      - 5000:5000
+    volumes:
+      - model:src/model
+  training:
+    build: ./training
+    volumes:
+      - model:src/model
+      - images:src/imgs
+
+volumes:
+  images:
+  model:
