@@ -1,0 +1,9 @@
+FROM node
+WORKDIR /frontend
+COPY . .
+RUN npm install && \ 
+    npm run build && \
+    npm install -g serve && \ 
+    useradd -m appuser
+USER appuser
+CMD [ "serve", "-s", "-l", "5000", "build" ]

@@ -1,0 +1,9 @@
+FROM golang::1.15
+WORKDIR /backend
+COPY . .
+RUN go build && \
+    go test ./...&& \
+    useradd -m appuser
+
+USER appuser
+CMD [ "./server" ]
