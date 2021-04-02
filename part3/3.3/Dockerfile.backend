@@ -6,7 +6,6 @@ RUN go build
 RUN go test ./...
 ENV PORT=8080
 RUN useradd -m appuser
-RUN chown -R appuser /backend
 USER appuser
 EXPOSE 8080
 CMD [ "./server" ]
