@@ -1,0 +1,10 @@
+FROM golang:alpine
+WORKDIR /backend
+COPY . .
+RUN apk add build-base && \
+    go build && \
+    go test ./...&& \
+    adduser -D appuser
+
+USER appuser
+CMD [ "./server" ]
